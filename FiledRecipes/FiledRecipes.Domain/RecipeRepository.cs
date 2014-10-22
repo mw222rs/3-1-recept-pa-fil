@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,6 +127,31 @@ namespace FiledRecipes.Domain
                 // Use the () operator to raise the event.
                 handler(this, e);
             }
+        }
+
+        public void Load()
+        {
+            List<string> recipes = new List<string>(100);
+            try
+            {
+                using (StreamReader reader = new StreamReader("Recipes.txt"))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                    }
+                }
+            }
+            catch (FileFormatException)
+            {
+                throw new FileFormatException();
+            }
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
         }
     }
 }
