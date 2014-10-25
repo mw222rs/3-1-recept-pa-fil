@@ -131,7 +131,7 @@ namespace FiledRecipes.Domain
 
         public void Load()
         {
-            List<Recipe> recipes = new List<Recipe>(100);
+            List<Recipe> recipes = new List<Recipe>();
             try
             {
                 using (StreamReader reader = new StreamReader(@"App_Data\Recipes.txt"))
@@ -142,53 +142,59 @@ namespace FiledRecipes.Domain
                     while ((line = reader.ReadLine()) != null)
                     {
                         if (string.IsNullOrEmpty(line))
-                        {
+                        {                            
                             continue;
                         }
-                        else if (line == "[Recept]")
+                        if (line == "[Recept]")
                         {
-                            status = RecipeReadStatus.New;
-                            continue;
+                            status = RecipeReadStatus.New;                            
                         }
                         else if (line == "[Ingredienser]")
                         {
                             status = RecipeReadStatus.Ingredient;
-                            continue;
                         }
                         else if (line == "[Instruktioner]")
                         {
                             status = RecipeReadStatus.Instruction;
-                            continue;
                         }
                         else
                         {
-                            switch (status)
+                           
+                            if (status == RecipeReadStatus.New)
                             {
-                                case RecipeReadStatus.Indefinite:
-                                    throw new FileFormatException();
-
-                                case RecipeReadStatus.New:
-                                    Recipe recipe = new Recipe(line);
-                                    break;
-
-                                case RecipeReadStatus.Ingredient:
-                                    string[] ingredients = line.Split(new char[] {';', ' '}, StringSplitOptions.RemoveEmptyEntries);
-                                    Ingredient ingredient = new Ingredient();
-                                    ingredient.Amount = ingredients[0];
-                                    ingredient.Measure = ingredients[1];
-                                    ingredient.Name = ingredients[2];
-                                    recipe.Add(ingredient);
-                                    break;
-
-                                case RecipeReadStatus.Instruction:
-                                    //recipe.Add(line);
-                                    break;
-
-                                default:
-                                    throw new FileFormatException();
+                                Recipe recipe = new Recipe(line);
+                                recipes.Add(recipe);
                             }
-                        }
+                            else if (status == RecipeReadStatus.Ingredient)
+                            {
+                                string[] ingredients = new string[3];
+                                ingredients = line.Split(new char[] { ';' });
+                                if (ingredients.Length != 3)
+                                {
+                                    throw new FileFormatException();
+                                }
+
+                                Ingredient ingredient = new Ingredient();
+                                ingredient.Amount = ingredients[0];
+                                ingredient.Measure = ingredients[1];
+                                ingredient.Name = ingredients[2];
+                                recipes.Last().Add(ingredient);
+                            }
+                            else if (status == RecipeReadStatus.Instruction)
+                            {
+                                recipes.Last().Add(line);
+                            }
+                            else
+                            {
+                                throw new FileFormatException();
+                            }
+                        }                                               
+                                                
                     }
+                    recipes.Sort();
+                    _recipes.AddRange(recipes);
+                    IsModified.Equals(true);
+                    OnRecipesChanged(EventArgs.Empty);
                 }
             }
             catch (FileFormatException)
