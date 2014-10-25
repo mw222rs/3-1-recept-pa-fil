@@ -193,13 +193,26 @@ namespace FiledRecipes.Domain
                     }
                     recipes.Sort();
                     _recipes.AddRange(recipes);
-                    IsModified.Equals(true);
+                    IsModified.Equals(false);
                     OnRecipesChanged(EventArgs.Empty);
                 }
             }
             catch (FileFormatException)
             {
-                throw new FileFormatException();
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(@"App_Data\Recipes.txt"))
+                    {
+                        writer.WriteLine("[Recept]");
+                        writer.WriteLine("[Ingredienser)");
+                        writer.WriteLine("[Instruktioner]");
+                    }
+                }
+                catch (FileFormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
         }
 

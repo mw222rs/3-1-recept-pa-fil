@@ -14,27 +14,51 @@ namespace FiledRecipes.Views
     {
         public void Show(IRecipe recipe)
         {
-            Console.WriteLine(recipe.Name);
+            Console.Clear();
+            int count = 1;
+            ShowPanel(recipe.Name, ConsoleColor.White, ConsoleColor.DarkCyan);
             Console.WriteLine();
-            Console.WriteLine("Ingredienser:");
-            Console.WriteLine("{0}", recipe.Ingredients.ToString());
+            Console.WriteLine("Ingredienser");
+            Console.WriteLine("---------------------------------");
+            foreach (Ingredient ingredient in recipe.Ingredients)
+            {
+                Console.WriteLine(ingredient.ToString());
+            }
             Console.WriteLine();
             Console.WriteLine("Gör såhär:");
-            Console.WriteLine("{0}", recipe.Instructions.ToString());
+            Console.WriteLine("---------------------------------");
+            foreach (string instruction in recipe.Instructions)
+            {                
+                Console.WriteLine("<{0}>", count++);
+                Console.WriteLine(instruction.ToString());
+            }
         }
 
         public void Show(IEnumerable<IRecipe> recipes)
         {
             foreach (Recipe recipe in recipes)
             {
-                Console.WriteLine(recipe.Name);
+                Console.Clear();
+                int count = 1;
+                ShowPanel(recipe.Name, ConsoleColor.White, ConsoleColor.DarkCyan);
                 Console.WriteLine();
-                Console.WriteLine("Ingredienser:");
-                Console.WriteLine("{0}", recipe.Ingredients.ToString());
+                Console.WriteLine("Ingredienser");
+                Console.WriteLine("---------------------------------");
+                foreach (Ingredient ingredient in recipe.Ingredients)
+                {
+                    Console.WriteLine(ingredient.ToString());
+                }
                 Console.WriteLine();
                 Console.WriteLine("Gör såhär:");
-                Console.WriteLine("{0}", recipe.Instructions.ToString());
+                Console.WriteLine("---------------------------------");
+                foreach (string instruction in recipe.Instructions)
+                {
+                    Console.WriteLine("<{0}>", count++);
+                    Console.WriteLine(instruction.ToString());
+                }
+                ContinueOnKeyPressed();
             }
+            
         }
     }
 }
