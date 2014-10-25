@@ -1,15 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="FiledRecipes.Domain.Recipe" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+  <Class Name="FiledRecipes.Domain.Recipe" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAIAAAAAAAAAQAgABAACQAAAAIAIAAAAAAAAAAAjQ=</HashCode>
       <FileName>Recipe.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Struct Name="FiledRecipes.Domain.Ingredient" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="10" Y="1" Width="1.5" />
+  <Class Name="FiledRecipes.Domain.RecipeRepository">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="FiledRecipes.Domain.RecipeRepository.RecipeReadStatus">
+        <TypeIdentifier>
+          <NewMemberFileName>RecipeRepository.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgYAAAAACABARCAIAAAAAAAMAAAAAAgAAAAEAAAA=</HashCode>
+      <FileName>RecipeRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="FiledRecipes.Domain.Ingredient" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAQEgAAAAASAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Ingredient.cs</FileName>
@@ -24,14 +42,14 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="FiledRecipes.Domain.IRecipe">
-    <Position X="3" Y="2" Width="1.5" />
+    <Position X="7.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAACQAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IRecipe.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="FiledRecipes.Domain.IRecipeRepository">
-    <Position X="5.25" Y="1.5" Width="1.5" />
+    <Position X="6" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgIAAAAAAAAABAAIAAAAAAAMAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>IRecipeRepository.cs</FileName>

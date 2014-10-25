@@ -131,23 +131,63 @@ namespace FiledRecipes.Domain
 
         public void Load()
         {
-            List<string> recipes = new List<string>(100);
+            List<Recipe> recipes = new List<Recipe>(100);
             try
             {
                 using (StreamReader reader = new StreamReader(@"App_Data\Recipes.txt"))
                 {
                     string line;
+                    RecipeReadStatus status = new RecipeReadStatus();
+
                     while ((line = reader.ReadLine()) != null)
                     {
-                        if (line == "[Recept]")
+                        if (string.IsNullOrEmpty(line))
                         {
-                            Recipe recipe = new Recipe(line);
+                            continue;
+                        }
+                        else if (line == "[Recept]")
+                        {
+                            status = RecipeReadStatus.New;
+                            continue;
                         }
                         else if (line == "[Ingredienser]")
                         {
-                            
+                            status = RecipeReadStatus.Ingredient;
+                            continue;
                         }
-                        Console.WriteLine(line);
+                        else if (line == "[Instruktioner]")
+                        {
+                            status = RecipeReadStatus.Instruction;
+                            continue;
+                        }
+                        else
+                        {
+                            switch (status)
+                            {
+                                case RecipeReadStatus.Indefinite:
+                                    throw new FileFormatException();
+
+                                case RecipeReadStatus.New:
+                                    Recipe recipe = new Recipe(line);
+                                    break;
+
+                                case RecipeReadStatus.Ingredient:
+                                    string[] ingredients = line.Split(new char[] {';', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                                    Ingredient ingredient = new Ingredient();
+                                    ingredient.Amount = ingredients[0];
+                                    ingredient.Measure = ingredients[1];
+                                    ingredient.Name = ingredients[2];
+                                    recipe.Add(ingredient);
+                                    break;
+
+                                case RecipeReadStatus.Instruction:
+                                    //recipe.Add(line);
+                                    break;
+
+                                default:
+                                    throw new FileFormatException();
+                            }
+                        }
                     }
                 }
             }
