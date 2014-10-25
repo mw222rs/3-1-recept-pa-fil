@@ -134,11 +134,19 @@ namespace FiledRecipes.Domain
             List<string> recipes = new List<string>(100);
             try
             {
-                using (StreamReader reader = new StreamReader("Recipes.txt"))
+                using (StreamReader reader = new StreamReader(@"App_Data\Recipes.txt"))
                 {
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
+                        if (line == "[Recept]")
+                        {
+                            Recipe recipe = new Recipe(line);
+                        }
+                        else if (line == "[Ingredienser]")
+                        {
+                            
+                        }
                         Console.WriteLine(line);
                     }
                 }
